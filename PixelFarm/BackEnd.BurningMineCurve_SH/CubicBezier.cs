@@ -28,7 +28,7 @@ using FLOAT = System.Double;
 #elif SYSTEM_NUMERICS_VECTOR
 using VECTOR = System.Numerics.Vector2;
 using FLOAT = System.Single;
-#elif UNITY
+#elif UNITY_5_4_OR_NEWER
 using VECTOR = UnityEngine.Vector2;
 using FLOAT = System.Single;
 #elif PIXEL_FARM
@@ -65,10 +65,10 @@ namespace burningmime.curves
         {
             get
             {
-                return (HasSomeNanComponentXY(p0.X, p0.Y) ||
-                  HasSomeNanComponentXY(p1.X, p1.Y) ||
-                  HasSomeNanComponentXY(p2.X, p2.Y) ||
-                  HasSomeNanComponentXY(p3.X, p3.Y));
+                return (HasSomeNanComponentXY(VectorHelper.GetX(p0), VectorHelper.GetY(p0)) ||
+                  HasSomeNanComponentXY(VectorHelper.GetX(p1), VectorHelper.GetY(p1)) ||
+                  HasSomeNanComponentXY(VectorHelper.GetX(p2), VectorHelper.GetY(p2)) ||
+                  HasSomeNanComponentXY(VectorHelper.GetX(p3), VectorHelper.GetY(p3)));
             }
         }
         static bool HasSomeNanComponentXY(double x, double y)
@@ -83,7 +83,7 @@ namespace burningmime.curves
         /// </summary>
         /// <param name="t">Time value at which to sample (should be between 0 and 1, though it won't fail if outside that range).</param>
         /// <returns>Sampled point.</returns>
-#if !UNITY && !PIXEL_FARM
+#if !UNITY_5_4_OR_NEWER && !PIXEL_FARM
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public VECTOR Sample(FLOAT t)
@@ -101,7 +101,7 @@ namespace burningmime.curves
         /// </summary>
         /// <param name="t">Time value at which to sample (should be between 0 and 1, though it won't fail if outside that range).</param>
         /// <returns>First derivative of curve at sampled point.</returns>
-#if !UNITY && !PIXEL_FARM
+#if !UNITY_5_4_OR_NEWER && !PIXEL_FARM
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public VECTOR Derivative(FLOAT t)
@@ -118,7 +118,7 @@ namespace burningmime.curves
         /// </summary>
         /// <param name="t">Time value at which to sample (should be between 0 and 1, though it won't fail if outside that range).</param>
         /// <returns>Direction the curve is going at that point.</returns>
-#if !UNITY && !PIXEL_FARM
+#if !UNITY_5_4_OR_NEWER && !PIXEL_FARM
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public VECTOR Tangent(FLOAT t)
@@ -176,7 +176,7 @@ namespace burningmime.curves
         private struct JenkinsHash
         {
             private int _current;
-#if !UNITY && !PIXEL_FARM
+#if !UNITY_5_4_OR_NEWER && !PIXEL_FARM
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
             public void Mixin(int hash)
@@ -195,7 +195,7 @@ namespace burningmime.curves
                 }
             }
 
-#if !UNITY && !PIXEL_FARM
+#if !UNITY_5_4_OR_NEWER && !PIXEL_FARM
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
             public int GetValue()

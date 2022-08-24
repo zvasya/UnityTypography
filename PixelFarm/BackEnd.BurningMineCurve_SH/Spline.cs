@@ -31,7 +31,7 @@ using FLOAT = System.Double;
 #elif SYSTEM_NUMERICS_VECTOR
 using VECTOR = System.Numerics.Vector2;
 using FLOAT = System.Single;
-#elif UNITY
+#elif UNITY_5_4_OR_NEWER
 using VECTOR = UnityEngine.Vector2;
 using FLOAT = System.Single;
 #elif PIXEL_FARM
@@ -151,7 +151,7 @@ namespace burningmime.curves
         /// </summary>
         public FLOAT Length
         {
-#if !UNITY && !PIXEL_FARM_NET20
+#if !UNITY_5_4_OR_NEWER && !PIXEL_FARM_NET20
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
             get

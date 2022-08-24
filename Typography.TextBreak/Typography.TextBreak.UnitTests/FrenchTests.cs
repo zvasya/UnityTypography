@@ -1,16 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 using Typography.TextBreak;
 using PixelFarm.Drawing;
 
-[TestClass]
 public class FrenchTests
 {
-    [TestMethod]
+    [Test]
     public void EngEngine()
     {
         //Text source: https://en.wikibooks.org/wiki/French/Texts/Simple/Le_Corbeau_et_le_Renard
@@ -74,7 +73,7 @@ Jura, mais un peu tard, qu’on ne l’y prendrait plus.";
         var brokenString = BreakText(Le_Corbeau_et_le_Renard);
         Assert.AreEqual(Le_Corbeau_et_le_Renard__Broken, brokenString);
     }
-    [TestMethod]
+    [Test]
     public void WordKindTest()
     {
         var breaker = new CustomBreaker { ThrowIfCharOutOfRange = true };

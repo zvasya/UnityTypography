@@ -27,7 +27,7 @@ using FLOAT = System.Double;
 #elif SYSTEM_NUMERICS_VECTOR
 using VECTOR = System.Numerics.Vector2;
 using FLOAT = System.Single;
-#elif UNITY
+#elif UNITY_5_4_OR_NEWER
 using VECTOR = UnityEngine.Vector2;
 using FLOAT = System.Single;
 #elif PIXEL_FARM
@@ -59,7 +59,7 @@ namespace burningmime.curves
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static VECTOR Lerp(VECTOR a, VECTOR b, FLOAT amount) { return new VECTOR(a.X + ((b.X - a.X) * amount), a.Y + ((b.Y - a.Y) * amount)); }
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static FLOAT GetX(VECTOR v) { return v.X; }
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static FLOAT GetY(VECTOR v) { return v.Y; }
-#elif UNITY
+#elif UNITY_5_4_OR_NEWER
         public static FLOAT Distance(VECTOR a, VECTOR b) { return VECTOR.Distance(a, b); }
         public static FLOAT DistanceSquared(VECTOR a, VECTOR b) { float dx = a.x - b.x; float dy = a.y - b.y; return dx*dx + dy*dy; }
         public static FLOAT Dot(VECTOR a, VECTOR b) { return VECTOR.Dot(a, b); }
@@ -109,7 +109,7 @@ namespace burningmime.curves
         /// <param name="v1">First vector to compare.</param>
         /// <param name="v2">Second vector to compare.</param>
         /// <returns>True iff the vectors are almost equal.</returns>
-#if !UNITY && !PIXEL_FARM_NET20
+#if !UNITY_5_4_OR_NEWER && !PIXEL_FARM_NET20
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool EqualsOrClose(VECTOR v1, VECTOR v2)

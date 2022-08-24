@@ -82,7 +82,7 @@ namespace Typography.OpenFont.Contours
         /// <param name="scale"></param>
         public void WriteOutput(VertexStore output, float scale = 1)
         {
-            using (Tools.BorrowCurveFlattener(out var f))
+            using (PixelFarm.CpuBlit.Tools.BorrowCurveFlattener(out var f))
             {
                 WriteOutput(output, f, scale);
             }

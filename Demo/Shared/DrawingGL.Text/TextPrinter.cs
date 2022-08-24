@@ -1,9 +1,8 @@
 ﻿//MIT, 2017, Zou Wei(github/zwcloud), WinterDev
-using System.Collections.Generic;
+using PixelFarm.CpuBlit.VertexProcessing;
 using Typography.OpenFont;
 using Typography.TextLayout;
 using Typography.Contours;
-using Tesselate;
 
 namespace DrawingGL.Text
 {
@@ -17,14 +16,13 @@ namespace DrawingGL.Text
         //2. measure glyph
         //3. generate glyph runs into textrun 
         GlyphTranslatorToPath _pathTranslator;
-        string _currentFontFile;
         GlyphOutlineBuilder _currentGlyphPathBuilder;
 
         //
         // for tess
         // 
         readonly SimpleCurveFlattener _curveFlattener;
-        readonly Tesselate.TessTool _tessTool;
+        readonly TessTool _tessTool;
 
         Typeface _currentTypeface;
 
@@ -50,7 +48,7 @@ namespace DrawingGL.Text
             //
             _curveFlattener = new SimpleCurveFlattener();
 
-            _tessTool = new Tesselate.TessTool();
+            _tessTool = new TessTool();
         }
 
 
@@ -67,34 +65,6 @@ namespace DrawingGL.Text
             {
                 _currentTypeface = value;
                 GlyphLayoutMan.Typeface = value;
-            }
-        }
-        public MeasuredStringBox Measure(char[] textBuffer, int startAt, int len)
-        {
-            return GlyphLayoutMan.LayoutAndMeasureString(
-                textBuffer, startAt, len,
-                this.FontSizeInPoints
-                );
-        }
-
-        /// <summary>
-        /// Font file path
-        /// </summary>
-        public string FontFilename
-        {
-            get => _currentFontFile;
-            set
-            {
-                if (_currentFontFile != value)
-                {
-                    _currentFontFile = value;
-
-                    //TODO: review here
-                    using (var stream = Utility.ReadFile(value))
-                    {
-                        var reader = new OpenFontReader();
-                        Typeface = reader.Read(stream);
-                    }
 
                     //2. glyph builder
                     _currentGlyphPathBuilder = new GlyphOutlineBuilder(Typeface);
@@ -123,6 +93,12 @@ namespace DrawingGL.Text
                     GlyphLayoutMan.EnableLigature = this.EnableLigature;
                 }
             }
+        public MeasuredStringBox Measure(char[] textBuffer, int startAt, int len)
+        {
+            return GlyphLayoutMan.LayoutAndMeasureString(
+                textBuffer, startAt, len,
+                this.FontSizeInPoints
+                );
         }
 
 

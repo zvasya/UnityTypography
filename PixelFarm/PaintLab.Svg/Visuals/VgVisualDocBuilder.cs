@@ -394,8 +394,8 @@ namespace PaintLab.Svg
         {
 
             VgVisualElement vgEllipse = new VgVisualElement(WellknownSvgElementName.Ellipse, ellipseSpec, _vgVisualDoc);
-            using (Tools.BorrowEllipse(out var ellipse))
-            using (Tools.BorrowVxs(out var v1))
+            using (PixelFarm.CpuBlit.Tools.BorrowEllipse(out var ellipse))
+            using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
             {
                 ReEvaluateArgs a = new ReEvaluateArgs(_containerWidth, _containerHeight, _emHeight); //temp fix 
                 double x = ConvertToPx(ellipseSpec.X, ref a);
@@ -416,8 +416,8 @@ namespace PaintLab.Svg
         {
             VgVisualElement vgImg = new VgVisualElement(WellknownSvgElementName.Image, imgspec, _vgVisualDoc);
 
-            using (Tools.BorrowRect(out var rectTool))
-            using (Tools.BorrowVxs(out var v1))
+            using (PixelFarm.CpuBlit.Tools.BorrowRect(out var rectTool))
+            using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
             {
                 ReEvaluateArgs a = new ReEvaluateArgs(_containerWidth, _containerHeight, _emHeight); //temp fix
                 vgImg._imgX = ConvertToPx(imgspec.X, ref a);
@@ -447,7 +447,7 @@ namespace PaintLab.Svg
             int j = points.Length;
             if (j > 1)
             {
-                using (Tools.BorrowVxs(out var v1))
+                using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
                 {
                     PointF p = points[0];
                     PointF p0 = p;
@@ -482,7 +482,7 @@ namespace PaintLab.Svg
             int j = points.Length;
             if (j > 1)
             {
-                using (Tools.BorrowVxs(out var v1))
+                using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
                 {
                     PointF p = points[0];
                     v1.AddMoveTo(p.X, p.Y);
@@ -605,7 +605,7 @@ namespace PaintLab.Svg
         VgVisualElement CreateLine(VgVisualElement parentNode, SvgLineSpec linespec)
         {
             VgVisualElement lineVisualElem = new VgVisualElement(WellknownSvgElementName.Line, linespec, _vgVisualDoc);
-            using (Tools.BorrowVxs(out var v1))
+            using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
             {
                 v1.AddMoveTo(linespec.X1.Number, linespec.Y1.Number);
                 v1.AddLineTo(linespec.X2.Number, linespec.Y2.Number);
@@ -620,8 +620,8 @@ namespace PaintLab.Svg
 
             VgVisualElement cir = new VgVisualElement(WellknownSvgElementName.Circle, cirSpec, _vgVisualDoc);
 
-            using (Tools.BorrowEllipse(out var ellipse))
-            using (Tools.BorrowVxs(out var v1))
+            using (PixelFarm.CpuBlit.Tools.BorrowEllipse(out var ellipse))
+            using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
             {
                 ReEvaluateArgs a = new ReEvaluateArgs(_containerWidth, _containerHeight, _emHeight); //temp fix
                 double x = ConvertToPx(cirSpec.X, ref a);
@@ -852,8 +852,8 @@ namespace PaintLab.Svg
             if (!rectSpec.CornerRadiusX.IsEmpty || !rectSpec.CornerRadiusY.IsEmpty)
             {
 
-                using (Tools.BorrowRoundedRect(out var roundRect))
-                using (Tools.BorrowVxs(out var v1))
+                using (PixelFarm.CpuBlit.Tools.BorrowRoundedRect(out var roundRect))
+                using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
                 {
                     ReEvaluateArgs a = new ReEvaluateArgs(_containerWidth, _containerHeight, _emHeight); //temp fix
                     roundRect.SetRect(
@@ -872,8 +872,8 @@ namespace PaintLab.Svg
             else
             {
 
-                using (Tools.BorrowRect(out var rectTool))
-                using (Tools.BorrowVxs(out var v1))
+                using (PixelFarm.CpuBlit.Tools.BorrowRect(out var rectTool))
+                using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
                 {
                     ReEvaluateArgs a = new ReEvaluateArgs(_containerWidth, _containerHeight, _emHeight); //temp fix
                     rectTool.SetRect(
@@ -900,9 +900,9 @@ namespace PaintLab.Svg
 
         VertexStore CreateVxsFromPathDefinition(char[] pathDefinition)
         {
-            using (Tools.BorrowCurveFlattener(out var curveFlattener))
-            using (Tools.BorrowVxs(out var v1, out var v2))
-            using (Tools.BorrowPathWriter(v1, out PathWriter pathWriter))
+            using (PixelFarm.CpuBlit.Tools.BorrowCurveFlattener(out var curveFlattener))
+            using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1, out var v2))
+            using (PixelFarm.CpuBlit.Tools.BorrowPathWriter(v1, out PathWriter pathWriter))
             {
                 _pathDataParser.SetPathWriter(pathWriter);
                 _pathDataParser.Parse(pathDefinition);

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Typography.OpenFont;
 using Typography.OpenFont.Tables;
+using UnityEngine;
+
 namespace Typography.TextLayout
 {
 
@@ -95,7 +97,7 @@ namespace Typography.TextLayout
                         includeThisFeature = true;
                         break;
                     default:
-                        System.Diagnostics.Debug.WriteLine("gpos_skip_tag:" + feature.TagName);
+                        Debug.LogWarning("gpos_skip_tag:" + feature.TagName);
                         break;
                 }
 

@@ -492,8 +492,8 @@ namespace PaintLab.Svg
                         {
                             //create rect path around img
 
-                            using (Tools.BorrowRect(out var ss))
-                            using (Tools.BorrowVxs(out VertexStore vxs))
+                            using (PixelFarm.CpuBlit.Tools.BorrowRect(out var ss))
+                            using (PixelFarm.CpuBlit.Tools.BorrowVxs(out VertexStore vxs))
                             {
                                 SvgImageSpec imgSpec = (SvgImageSpec)_visualSpec;
                                 ss.SetRect(0, imgSpec.Height.Number, imgSpec.Width.Number, 0);
@@ -526,7 +526,7 @@ namespace PaintLab.Svg
                         else
                         {
                             //have some tx
-                            using (Tools.BorrowVxs(out var v1))
+                            using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
                             {
                                 currentTx.TransformToVxs(VxsPath, v1);
                                 visitor.Current = this;
@@ -709,8 +709,8 @@ namespace PaintLab.Svg
                             //TODO: review this num conversion
                             maskBmp = new MemBitmap((int)maskSpec.Width.Number, (int)maskSpec.Height.Number);
                             //use software renderer for mask-bitmap
-                            using (Tools.BorrowAggPainter(maskBmp, out var painter))
-                            using (Tools.More.BorrowVgPaintArgs(painter, out var paintArgs2))
+                            using (PixelFarm.CpuBlit.Tools.BorrowAggPainter(maskBmp, out var painter))
+                            using (PixelFarm.CpuBlit.Tools.More.BorrowVgPaintArgs(painter, out var paintArgs2))
                             {
                                 painter.FillColor = Color.Black;
                                 painter.Clear(Color.White);
@@ -927,7 +927,7 @@ namespace PaintLab.Svg
                     if (currentTx != null)
                     {
                         //have some tx
-                        using (Tools.BorrowVxs(out var v1))
+                        using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
                         {
                             currentTx.TransformToVxs(clipVxs, v1);
                             p.SetClipRgn(v1);
@@ -1206,8 +1206,8 @@ namespace PaintLab.Svg
                                         //vxs caching 
                                         _latestStrokeW = (float)p.StrokeWidth;
 
-                                        using (Tools.BorrowVxs(out var v1))
-                                        using (Tools.BorrowStroke(out var stroke))
+                                        using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
+                                        using (PixelFarm.CpuBlit.Tools.BorrowStroke(out var stroke))
                                         {
                                             stroke.Width = _latestStrokeW;
                                             stroke.MakeVxs(VxsPath, v1);
@@ -1319,7 +1319,7 @@ namespace PaintLab.Svg
                         else
                         {
                             //have some tx
-                            using (Tools.BorrowVxs(out var v1))
+                            using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
                             {
                                 currentTx.TransformToVxs(VxsPath, v1);
 

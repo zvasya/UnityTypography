@@ -31,7 +31,7 @@ using FLOAT = System.Double;
 #elif SYSTEM_NUMERICS_VECTOR
 using VECTOR = System.Numerics.Vector2;
 using FLOAT = System.Single;
-#elif UNITY
+#elif UNITY_5_4_OR_NEWER
 using VECTOR = UnityEngine.Vector2;
 using FLOAT = System.Single;
 #elif PIXEL_FARM
@@ -49,7 +49,7 @@ namespace burningmime.curves
     /// </summary>
     public sealed class CurveFit : CurveFitBase
     {
-#if !UNITY
+#if !UNITY_5_4_OR_NEWER
         /// <summary>
         /// Use a thread-static instance to prevent multithreading issues without needing to re-allocate on each run.
         /// </summary>

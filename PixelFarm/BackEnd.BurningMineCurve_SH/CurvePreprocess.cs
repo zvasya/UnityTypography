@@ -30,7 +30,7 @@ using FLOAT = System.Double;
 #elif SYSTEM_NUMERICS_VECTOR
 using VECTOR = System.Numerics.Vector2;
 using FLOAT = System.Single;
-#elif UNITY
+#elif UNITY_5_4_OR_NEWER
 using VECTOR = UnityEngine.Vector2;
 using FLOAT = System.Single;
 #elif PIXEL_FARM
@@ -209,7 +209,7 @@ namespace burningmime.curves
         /// <param name="aCrossB">"a.X*b.Y - b.X*a.Y" This would be the Z-component of (⟪a.X, a.Y, 0⟫ ⨯ ⟪b.X, b.Y, 0⟫) in 3-space.</param>
         /// <param name="p">The point to test.</param>
         /// <returns>The perpendicular distance to the line.</returns>
-#if !UNITY && !PIXEL_FARM_NET20
+#if !UNITY_5_4_OR_NEWER && !PIXEL_FARM_NET20
         [MethodImpl(MethodImplOptions.AggressiveInlining)] // originally this method wasn't be inlined
 #endif
         private static FLOAT PerpendicularDistance(VECTOR a, VECTOR b, FLOAT abDist, FLOAT aCrossB, VECTOR p)

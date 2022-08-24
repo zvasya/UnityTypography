@@ -1,0 +1,15 @@
+{
+  "name": "com.zvasya.unity_typography",
+  "displayName": "Unity Typography",
+  "version": "0.0.1",
+  "unity": "2021.3",
+  "description": "Typography implementation for Unity",
+  "author": {
+    "name": "zvasya",
+    "email": "vasya.k121@gmail.com",
+    "url": "https://github.com/zvasya"
+  },
+  "keywords": ["Typography"],
+  "dependencies": {
+  }
+}

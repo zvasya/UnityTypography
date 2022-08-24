@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using System.Threading;
 using OpenTK;
 using OpenTK.Graphics;
+using UnityEngine;
+
 #endregion
 
 
@@ -182,9 +184,9 @@ namespace OpenTK.Graphics.ES20
 
         static float Vector3lengthSquared(ref Vector3 vec)
         {
-            return vec.X * vec.X +
-                   vec.Y * vec.Y +
-                   vec.Z * vec.Z;
+            return vec.x * vec.x +
+                   vec.y * vec.y +
+                   vec.z * vec.z;
         }
 
         static Vector3 NormalizeVector(Vector3 vec)
@@ -194,9 +196,9 @@ namespace OpenTK.Graphics.ES20
             if (len != 0.0f)
             {
                 float invLen = 1.0f / len;
-                ret.X = vec.X * invLen;
-                ret.Y = vec.Y * invLen;
-                ret.Z = vec.Z * invLen;
+                ret.x = vec.x * invLen;
+                ret.y = vec.y * invLen;
+                ret.z = vec.z * invLen;
             }
             return ret;
         }
@@ -206,17 +208,17 @@ namespace OpenTK.Graphics.ES20
             float theta = (float)(angle * (Math.PI / 180.0f));
             float cos_t = (float)Math.Cos(theta);
             float sin_t = (float)Math.Sin(theta);
-            return new MyMat4(cos_t + (u.X * u.X * (1.0f - cos_t)), (u.X * u.Y * (1.0f - cos_t)) - (u.Z * sin_t), (u.X * u.Z * (1.0f - cos_t)) + (u.Y * sin_t), 0.0f,
-                           (u.Y * u.X * (1.0f - cos_t)) + (u.Z * sin_t), cos_t + (u.Y * u.Y * (1.0f - cos_t)), (u.Y * u.Z * (1.0f - cos_t)) - (u.X * sin_t), 0.0f,
-                           (u.Z * u.X * (1.0f - cos_t)) - (u.Y * sin_t), (u.Z * u.Y * (1.0f - cos_t)) + (u.X * sin_t), cos_t + (u.Z * u.Z * (1.0f - cos_t)), 0.0f,
+            return new MyMat4(cos_t + (u.x * u.x * (1.0f - cos_t)), (u.x * u.y * (1.0f - cos_t)) - (u.z * sin_t), (u.x * u.z * (1.0f - cos_t)) + (u.y * sin_t), 0.0f,
+                           (u.y * u.x * (1.0f - cos_t)) + (u.z * sin_t), cos_t + (u.y * u.y * (1.0f - cos_t)), (u.y * u.z * (1.0f - cos_t)) - (u.x * sin_t), 0.0f,
+                           (u.z * u.x * (1.0f - cos_t)) - (u.y * sin_t), (u.z * u.y * (1.0f - cos_t)) + (u.x * sin_t), cos_t + (u.z * u.z * (1.0f - cos_t)), 0.0f,
                                                                    0.0f, 0.0f, 0.0f, 1.0f);
         }
 
         public static MyMat4 translate(Vector3 t)
         {
-            return new MyMat4(1.0f, 0.0f, 0.0f, t.X,
-                              0.0f, 1.0f, 0.0f, t.Y,
-                              0.0f, 0.0f, 1.0f, t.Z,
+            return new MyMat4(1.0f, 0.0f, 0.0f, t.x,
+                              0.0f, 1.0f, 0.0f, t.y,
+                              0.0f, 0.0f, 1.0f, t.z,
                               0.0f, 0.0f, 0.0f, 1.0f);
         }
         public static MyMat4 ortho(float l, float r, float b, float t, float n, float f)

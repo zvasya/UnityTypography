@@ -233,7 +233,7 @@ namespace PixelFarm.Drawing
             var memBmp = new MemBitmap((int)Math.Round(totalBounds.Width), (int)Math.Round(totalBounds.Height));//???
             int offset_x = 0;
             int offset_y = 0;
-            using (Tools.BorrowAggPainter(memBmp, out AggPainter painter))
+            using (PixelFarm.CpuBlit.Tools.BorrowAggPainter(memBmp, out AggPainter painter))
             {
                 painter.Clear(Color.Transparent);
                 painter.SetOrigin(0, 0);
@@ -252,7 +252,7 @@ namespace PixelFarm.Drawing
 
                     ushort gIndex = _colrTable.GlyphLayers[c];
                     VertexStore vxs = _glyphMeshStore.GetGlyphMesh(gIndex);
-                    using (Tools.BorrowVxs(out var v1))
+                    using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
                     {
                         vxs.TranslateToNewVxs(offset_x, offset_y, v1);
                         painter.FillColor = new Color(r, g, b);//? a component

@@ -202,6 +202,8 @@ namespace PixelFarm.CpuBlit.VertexProcessing
         {
             //internal tess the polygon
 
+            if (vertex2dCoords == null)
+                return false;
             int ncoords = vertex2dCoords.Length / 2;
             _tessListener.ResetAndLoadInputVertexList(ncoords);
             if (ncoords == 0) return false;

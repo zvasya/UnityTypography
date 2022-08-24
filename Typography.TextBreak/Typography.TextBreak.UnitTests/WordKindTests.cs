@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Typography.TextBreak;
 using static Typography.TextBreak.WordKind;
 
-
-[TestClass]
 public class WordKindTests
 {
     public void WordKindTest(string input, (string section, WordKind wordKind)[] output)
@@ -35,7 +33,7 @@ public class WordKindTests
         }
     }
 
-    [TestMethod]
+    [Test]
     public void WordKind()
     {
         foreach (var testCase in new[] {

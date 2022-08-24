@@ -2,6 +2,7 @@
 
 using System;
 using System.IO;
+using UnityEngine;
 
 namespace Typography.OpenFont.Tables
 {
@@ -135,7 +136,7 @@ namespace Typography.OpenFont.Tables
                 {
 #if DEBUG
                     default:
-                        System.Diagnostics.Debug.WriteLine("openfont-meta: unknown tag:" + record.GetTagString());
+                        Debug.LogWarning("openfont-meta: unknown tag:" + record.GetTagString());
                         break;
 #endif
                     case "apple": //Reserved — used by Apple.

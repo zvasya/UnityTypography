@@ -144,7 +144,7 @@ namespace Typography.OpenFont.Contours
                 //TODO: review dynamic outline
                 dynamicOutline.GenerateOutput(new ContourToGlyphTranslator(_tovxs), pxscale);
                 //version 3 
-                using (Tools.BorrowVxs(out var v1))
+                using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
                 {
                     _tovxs.WriteUnFlattenOutput(v1, 1);
                     return FlipGlyphUpward ? v1.CreateTrim(s_flipY) : v1.CreateTrim();
@@ -152,7 +152,7 @@ namespace Typography.OpenFont.Contours
             }
             else
             {
-                using (Tools.BorrowVxs(out var v1))
+                using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
                 {
                     _currentGlyphBuilder.ReadShapes(_tovxs);
                     _tovxs.WriteUnFlattenOutput(v1, 1); //write to temp buffer first 
@@ -221,7 +221,7 @@ namespace Typography.OpenFont.Contours
                     //TODO: review here aain
                     dynamicOutline.GenerateOutput(new ContourToGlyphTranslator(_tovxs), pxscale);
                     //version 3 
-                    using (Tools.BorrowVxs(out var v1))
+                    using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
                     {
                         _tovxs.WriteOutput(v1);
                         glyphMeshData.vxsStore = FlipGlyphUpward ? v1.CreateTrim(s_flipY) : v1.CreateTrim();
@@ -229,7 +229,7 @@ namespace Typography.OpenFont.Contours
                 }
                 else
                 {
-                    using (Tools.BorrowVxs(out var v1))
+                    using (PixelFarm.CpuBlit.Tools.BorrowVxs(out var v1))
                     {
                         _currentGlyphBuilder.ReadShapes(_tovxs);
                         _tovxs.WriteOutput(v1); //write to temp buffer first 

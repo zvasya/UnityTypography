@@ -4,6 +4,7 @@
 using System;
 using System.Text;
 using System.IO;
+using UnityEngine;
 
 namespace Typography.OpenFont
 {
@@ -98,14 +99,14 @@ namespace Typography.OpenFont
         public static void WarnUnimplemented(string format, params object[] args)
         {
 #if DEBUG
-            System.Diagnostics.Debug.WriteLine("!STUB! " + string.Format(format, args));
+            Debug.LogWarning("!STUB! " + string.Format(format, args));
 #endif
         }
 
         internal static void WarnUnimplementedCollectAssocGlyphs(string msg)
         {
 #if DEBUG
-            System.Diagnostics.Debug.WriteLine("!STUB! UnimplementedCollectAssocGlyph :" + msg);
+            Debug.LogWarning("!STUB! UnimplementedCollectAssocGlyph :" + msg);
 #endif
         }
 #if DEBUG

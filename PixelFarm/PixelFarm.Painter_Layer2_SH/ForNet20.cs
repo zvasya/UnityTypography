@@ -1,4 +1,4 @@
-﻿
+﻿#if !UNITY_5_3_OR_NEWER
 //for .NET 2.0 
 namespace System
 {
@@ -721,3 +721,4 @@ namespace System.Collections.Generic
 
 }
 
+#endif

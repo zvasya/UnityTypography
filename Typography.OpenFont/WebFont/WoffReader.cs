@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using Typography.OpenFont.Tables;
 using Typography.OpenFont.Trimmable;
+using UnityEngine;
 
 namespace Typography.OpenFont.WebFont
 {
@@ -94,7 +95,7 @@ namespace Typography.OpenFont.WebFont
             if (_header == null)
             {
 #if DEBUG
-                System.Diagnostics.Debug.WriteLine("can't read ");
+                Debug.LogWarning("can't read ");
 #endif
                 return null; //notify user too
             }

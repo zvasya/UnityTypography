@@ -124,7 +124,7 @@ namespace BrotliSharpLib {
 
         // https://github.com/dotnet/coreclr/blob/master/src/mscorlib/src/System/Buffer.cs
         private static unsafe void memcpy(void* destination, void* source, size_t length) {
-#if !(NET20 || NET35 || NET40)
+#if !(NET20 || NET35 || NET40 || UNITY_5_3_OR_NEWER)
             System.Runtime.CompilerServices.Unsafe.CopyBlockUnaligned(destination, source, length);
 #else
             // This is portable version of memcpy. It mirrors what the hand optimized assembly versions of memcpy typically do.
@@ -448,7 +448,7 @@ namespace BrotliSharpLib {
 
         // https://github.com/Smattr/memset
         private static unsafe void* memset(void* ptr, int value, size_t num) {
-#if !(NET20 || NET35 || NET40)
+#if !(NET20 || NET35 || NET40 || UNITY_5_3_OR_NEWER)
             System.Runtime.CompilerServices.Unsafe.InitBlockUnaligned(ptr, (byte)value, num);
             return ptr;
 #else
