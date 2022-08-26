@@ -24,7 +24,7 @@ namespace Typography
 
         public void Init()
         {
-            if (_textPrinter == null)
+            if (_textPrinter == null && font != null)
             {
                 _textPrinter = new();
                 _textPrinter.EnableLigature = true;
@@ -40,6 +40,11 @@ namespace Typography
 
         private TextRun CreateTextRun()
         {
+            Init();
+            
+            if (_textPrinter == null)
+                return null;
+            
             var textRun = new TextRun();
             _textPrinter.FontSizeInPoints = 64;
 
@@ -51,6 +56,10 @@ namespace Typography
         float GetWidth()
         {
             var textRun = TextRun;
+            
+            if (textRun == null)
+                return 0;
+            
             List<GlyphRun> glyphs = textRun._glyphs;
             int j = glyphs.Count;
             float accX = 0;
@@ -71,6 +80,9 @@ namespace Typography
         {
             Init();
             var textRun = TextRun;
+            
+            if (textRun == null)
+                return;
             
             List<GlyphRun> glyphs = textRun._glyphs;
             int j = glyphs.Count;

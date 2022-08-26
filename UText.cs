@@ -22,7 +22,7 @@ public class UText : MaskableGraphic, ILayoutElement
     
     public void Init()
     {
-        if (_textPrinter == null)
+        if (_textPrinter == null && _font != null)
         {
             _textPrinter = new();
             _textPrinter.EnableLigature = true;
@@ -38,6 +38,10 @@ public class UText : MaskableGraphic, ILayoutElement
 
     private TextRun CreateTextRun()
     {
+        Init();
+        if (_textPrinter == null)
+            return null;
+        
         var textRun = new TextRun();
         _textPrinter.FontSizeInPoints = 64;
 
@@ -49,6 +53,9 @@ public class UText : MaskableGraphic, ILayoutElement
     float GetWidth()
     {
         var textRun = TextRun;
+        if (textRun == null)
+            return 0;
+        
         List<GlyphRun> glyphs = textRun._glyphs;
         int j = glyphs.Count;
         float accX = 0;
@@ -68,9 +75,11 @@ public class UText : MaskableGraphic, ILayoutElement
     protected override void OnPopulateMesh(VertexHelper toFill)
     {
         toFill.Clear();
-        Init();
 
         var textRun = TextRun;
+        if (textRun == null)
+            return;
+
         List<GlyphRun> glyphs = textRun._glyphs;
         int j = glyphs.Count;
         float accX = 0;
