@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/Resources/SuperFontEditor.uss?fileID=7433441132597879392&amp;guid=1e42d713ab79f4f7fadef25ec5391202&amp;type=3#SuperFontEditor" />
+    <ui:VisualElement name="LkSubTableT1Fmt1" style="flex-direction: row;">
+        <ui:VisualElement name="from" style="flex-grow: 1; scale: 1 1; transform-origin: center; flex-direction: row; justify-content: flex-end;" />
+        <ui:Label text="=&gt;" display-tooltip-when-elided="true" />
+        <ui:VisualElement name="to" style="flex-grow: 1; scale: 1 1; transform-origin: center; width: auto; flex-direction: row; -unity-background-scale-mode: scale-to-fit;" />
+    </ui:VisualElement>
+</ui:UXML>

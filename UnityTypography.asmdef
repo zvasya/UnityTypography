@@ -1,7 +1,9 @@
 {
     "name": "UnityTypography",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "VectorImageUtils"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": true,

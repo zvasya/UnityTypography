@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/Resources/SuperFontEditor.uss?fileID=7433441132597879392&amp;guid=1e42d713ab79f4f7fadef25ec5391202&amp;type=3#SuperFontEditor" />
+    <ui:VisualElement name="SuperFontEditor">
+        <uie:Toolbar style="display: none;">
+            <uie:ToolbarButton name="GSUB" text="GSUB" class="tollbartoggle" />
+            <uie:ToolbarButton name="GPOS" text="GPOS" class="tollbartoggle" />
+        </uie:Toolbar>
+        <ui:ScrollView name="ScrollView">
+            <ui:VisualElement name="Views" style="flex-grow: 1; padding-left: 20px;" />
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

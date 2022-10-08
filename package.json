@@ -11,5 +11,6 @@
   },
   "keywords": ["Typography"],
   "dependencies": {
+    "com.zvasya.vector_image_utils" : "https://github.com/zvasya/VectorImageUtils.git"
   }
 }
