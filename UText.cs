@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using DrawingGL;
 using DrawingGL.Text;
@@ -14,12 +14,12 @@ using Color = UnityEngine.Color;
 public class UText : MaskableGraphic, ILayoutElement
 {
     [SerializeField] private SuperFont _font;
-    
     [SerializeField] private string _text;
-    
-    
+    [SerializeField] private TextAnchor _alignment;
+
+    [NonSerialized] private SuperFont _prevFont;
     private TextPrinter _textPrinter;
-    
+
     public void Init()
     {
         if (_textPrinter == null && _font != null)
@@ -41,7 +41,7 @@ public class UText : MaskableGraphic, ILayoutElement
         Init();
         if (_textPrinter == null)
             return null;
-        
+
         var textRun = new TextRun();
         _textPrinter.FontSizeInPoints = 64;
 
@@ -55,7 +55,7 @@ public class UText : MaskableGraphic, ILayoutElement
         var textRun = TextRun;
         if (textRun == null)
             return 0;
-        
+
         List<GlyphRun> glyphs = textRun._glyphs;
         int j = glyphs.Count;
         float accX = 0;
@@ -86,6 +86,13 @@ public class UText : MaskableGraphic, ILayoutElement
         float accY = 0;
         float nx = 0;
         float ny = 0;
+        var rect = rectTransform.rect;
+        accX = _alignment switch
+        {
+            TextAnchor.LowerLeft or TextAnchor.MiddleLeft or TextAnchor.UpperLeft => rect.xMin,
+            TextAnchor.LowerRight or TextAnchor.MiddleRight or TextAnchor.UpperRight => rect.xMax - preferredWidth,
+            _ => rect.center.x - preferredWidth / 2,
+        };
 
         float pxscale = _textPrinter.Typeface.CalculateScaleToPixelFromPointSize(_textPrinter.FontSizeInPoints);
 
@@ -104,7 +111,7 @@ public class UText : MaskableGraphic, ILayoutElement
 
             if (run._tessData == null)
                 continue;
-            
+
             for (int k = 0; k < run._tessData.Length / 2; k++)
             {
                 var h = k * 2;
@@ -117,11 +124,16 @@ public class UText : MaskableGraphic, ILayoutElement
                 toFill.AddTriangle(l++, l++, l++);
             }
         }
-        
     }
 
     protected override void OnValidate()
     {
+        if (_prevFont != _font)
+        {
+            _textPrinter = null;
+            _prevFont = _font;
+        }
+
         _textRun = null;
         base.OnValidate();
     }
