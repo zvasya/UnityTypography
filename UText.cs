@@ -4,6 +4,7 @@ using DrawingGL;
 using DrawingGL.Text;
 using Typography;
 using Typography.OpenFont;
+using Typography.OpenFont.Extensions;
 using Typography.TextLayout;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,8 +16,10 @@ public class UText : MaskableGraphic, ILayoutElement
 {
     [SerializeField] private SuperFont _font;
     [SerializeField] private string _text;
+    [SerializeField] private int _fontSize;
     [SerializeField] private TextAnchor _alignment;
 
+    [NonSerialized] private int _prevFontSize;
     [NonSerialized] private SuperFont _prevFont;
     private TextPrinter _textPrinter;
 
@@ -43,11 +46,17 @@ public class UText : MaskableGraphic, ILayoutElement
             return null;
 
         var textRun = new TextRun();
-        _textPrinter.FontSizeInPoints = 64;
+        _textPrinter.FontSizeInPoints = _fontSize * 0.75f; //TODO understand why it is so
 
         _textPrinter.GenerateGlyphRuns(textRun, _text.ToCharArray(), 0, _text.Length);
 
         return textRun;
+    }
+
+    float GetHeight()
+    {
+        return _textPrinter.Typeface.CalculateMaxLineClipHeight() *
+               _textPrinter.Typeface.CalculateScaleToPixelFromPointSize(_textPrinter.FontSizeInPoints);
     }
 
     float GetWidth()
@@ -80,39 +89,44 @@ public class UText : MaskableGraphic, ILayoutElement
         if (textRun == null)
             return;
 
-        List<GlyphRun> glyphs = textRun._glyphs;
-        int j = glyphs.Count;
-        float accX = 0;
-        float accY = 0;
-        float nx = 0;
-        float ny = 0;
+        var glyphs = textRun._glyphs;
+        var j = glyphs.Count;
         var rect = rectTransform.rect;
-        accX = _alignment switch
+        var pxScale = _textPrinter.Typeface.CalculateScaleToPixelFromPointSize(_textPrinter.FontSizeInPoints);
+        
+        var accX = _alignment switch
         {
             TextAnchor.LowerLeft or TextAnchor.MiddleLeft or TextAnchor.UpperLeft => rect.xMin,
             TextAnchor.LowerRight or TextAnchor.MiddleRight or TextAnchor.UpperRight => rect.xMax - preferredWidth,
             _ => rect.center.x - preferredWidth / 2,
         };
+        var accY = _alignment switch
+        {
+            TextAnchor.LowerLeft or TextAnchor.LowerCenter or TextAnchor.LowerRight => rect.yMin,
+            TextAnchor.UpperLeft or TextAnchor.UpperCenter or TextAnchor.UpperRight => rect.yMax - preferredHeight,
+            _ => rect.center.y - preferredHeight / 2,
+        } - (_textPrinter.Typeface.LineGap + _textPrinter.Typeface.Descender) * pxScale;
+        
+        var nx = 0f;
+        var ny = 0f;
 
-        float pxscale = _textPrinter.Typeface.CalculateScaleToPixelFromPointSize(_textPrinter.FontSizeInPoints);
-
-        int l = 0;
-        for (int i = 0; i < j; ++i)
+        var l = 0;
+        for (var i = 0; i < j; ++i)
         {
             //render each glyph
             GlyphRun run = glyphs[i];
 
             UnscaledGlyphPlan plan = run.GlyphPlan;
 
-            nx = accX + plan.OffsetX * pxscale;
-            ny = accY + plan.OffsetY * pxscale;
+            nx = accX + plan.OffsetX * pxScale;
+            ny = accY + plan.OffsetY * pxScale;
 
-            accX += (plan.AdvanceX * pxscale);
+            accX += (plan.AdvanceX * pxScale);
 
             if (run._tessData == null)
                 continue;
 
-            for (int k = 0; k < run._tessData.Length / 2; k++)
+            for (var k = 0; k < run._tessData.Length / 2; k++)
             {
                 var h = k * 2;
                 toFill.AddVert(new Vector3(nx + run._tessData[h], ny + run._tessData[h + 1], 0), Color.white,
@@ -128,9 +142,10 @@ public class UText : MaskableGraphic, ILayoutElement
 
     protected override void OnValidate()
     {
-        if (_prevFont != _font)
+        if (_prevFont != _font || _prevFontSize != _fontSize)
         {
             _textPrinter = null;
+            _prevFontSize = _fontSize;
             _prevFont = _font;
         }
 
@@ -150,7 +165,7 @@ public class UText : MaskableGraphic, ILayoutElement
     public float preferredWidth => GetWidth();
     public virtual float flexibleWidth => -1;
     public float minHeight => 0;
-    public float preferredHeight => 100;
+    public float preferredHeight => GetHeight();
     public float flexibleHeight => -1;
     public int layoutPriority => 0;
 }

@@ -9,6 +9,7 @@ namespace Typography_Editor
     {
         SerializedProperty _font;
         SerializedProperty _text;
+        SerializedProperty _fontSize;
         SerializedProperty _alignment;
 
         protected override void OnEnable()
@@ -16,6 +17,7 @@ namespace Typography_Editor
             base.OnEnable();
             _font = serializedObject.FindProperty("_font");
             _text = serializedObject.FindProperty("_text");
+            _fontSize = serializedObject.FindProperty("_fontSize");
             _alignment = serializedObject.FindProperty("_alignment");
         }
 
@@ -25,6 +27,7 @@ namespace Typography_Editor
 
             EditorGUILayout.PropertyField(_font);
             EditorGUILayout.PropertyField(_text);
+            EditorGUILayout.PropertyField(_fontSize);
             EditorGUILayout.PropertyField(_alignment);
 
             AppearanceControlsGUI();
