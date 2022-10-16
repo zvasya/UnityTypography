@@ -19,6 +19,7 @@ public class UText : MaskableGraphic, ILayoutElement
     [SerializeField] private string _text;
     [SerializeField] private int _fontSize;
     [SerializeField] private TextAnchor _alignment;
+    [SerializeField] private ushort[] _featureIndexList;
 
 #if UNITY_EDITOR
     [NonSerialized] private int _prevFontSize;
@@ -26,8 +27,6 @@ public class UText : MaskableGraphic, ILayoutElement
     [NonSerialized] private ushort[] _prevFeatureIndexList;
 #endif
     private TextPrinter _textPrinter;
-
-    [SerializeField] private ushort[] _featureIndexList;
     
     public void Init()
     {
