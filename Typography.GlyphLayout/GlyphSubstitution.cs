@@ -107,12 +107,12 @@ namespace Typography.TextLayout
         public string dbugScriptLang;
 #endif
 
-        public void DoSubstitution(IGlyphIndexList glyphIndexList)
+        public void DoSubstitution(IGlyphIndexList glyphIndexList, ushort[] featureIndexList)
         {
             // Rebuild tables if configuration changed
             if (_mustRebuildTables)
             {
-                RebuildTables();
+                RebuildTables(featureIndexList);
                 _mustRebuildTables = false;
             }
 
@@ -188,81 +188,88 @@ namespace Typography.TextLayout
 
         internal List<GSubLkContext> _lookupTables = new List<GSubLkContext>();
 
-        internal void RebuildTables()
+        internal void RebuildTables(ushort[] featureIndexList)
         {
             _lookupTables.Clear();
 
             // check if this lang has
             GSUB gsubTable = _typeface.GSUBTable;
-            ScriptTable scriptTable = gsubTable.ScriptList[ScriptTag];
-            if (scriptTable == null) return;
-
-            //-------
-            ScriptTable.LangSysTable selectedLang = null;
-            if (LangTag == 0)
+            if (featureIndexList == null)
             {
-                //use default
-                selectedLang = scriptTable.defaultLang;
-
-                if (selectedLang == null && scriptTable.langSysTables != null && scriptTable.langSysTables.Length > 0)
+                ScriptTable scriptTable = gsubTable.ScriptList[ScriptTag];
+                if (scriptTable == null) return;
+                //-------
+                ScriptTable.LangSysTable selectedLang = null;
+                if (LangTag == 0)
                 {
-                    //some font not defult lang
-                    //so we use it from langSysTable
-                    //find selected lang,
-                    //if not => choose default
-                    selectedLang = scriptTable.langSysTables[0];
-                }
-            }
-            else
-            {
-                if (LangTag == scriptTable.defaultLang.langSysTagIden)
-                {
-                    //found
+                    //use default
                     selectedLang = scriptTable.defaultLang;
-                }
 
-                if (scriptTable.langSysTables != null && scriptTable.langSysTables.Length > 0)
-                {  //find selected lang,
-                   //if not => choose default
-
-                    for (int i = 0; i < scriptTable.langSysTables.Length; ++i)
+                    if (selectedLang == null && scriptTable.langSysTables != null &&
+                        scriptTable.langSysTables.Length > 0)
                     {
-                        ScriptTable.LangSysTable s = scriptTable.langSysTables[i];
-                        if (s.langSysTagIden == LangTag)
+                        //some font not defult lang
+                        //so we use it from langSysTable
+                        //find selected lang,
+                        //if not => choose default
+                        selectedLang = scriptTable.langSysTables[0];
+                    }
+                }
+                else
+                {
+                    if (LangTag == scriptTable.defaultLang.langSysTagIden)
+                    {
+                        //found
+                        selectedLang = scriptTable.defaultLang;
+                    }
+
+                    if (scriptTable.langSysTables != null && scriptTable.langSysTables.Length > 0)
+                    {
+                        //find selected lang,
+                        //if not => choose default
+
+                        for (int i = 0; i < scriptTable.langSysTables.Length; ++i)
                         {
-                            //found
-                            selectedLang = s;
-                            break;
+                            ScriptTable.LangSysTable s = scriptTable.langSysTables[i];
+                            if (s.langSysTagIden == LangTag)
+                            {
+                                //found
+                                selectedLang = s;
+                                break;
+                            }
                         }
                     }
                 }
-            }
 
-            //-----------------------------------
-            //some lang need special management
-            //TODO: review here again
+                //-----------------------------------
+                //some lang need special management
+                //TODO: review here again
 
 
 #if DEBUG
-            if (selectedLang == null)
-            {
-                //TODO:...
-                throw new NotSupportedException();
-            }
-            if (selectedLang.HasRequireFeature)
-            {
-                // TODO: review here
-            }
+                if (selectedLang == null)
+                {
+                    //TODO:...
+                    throw new NotSupportedException();
+                }
+
+                if (selectedLang.HasRequireFeature)
+                {
+                    // TODO: review here
+                }
 #endif
 
-            if (selectedLang.featureIndexList == null)
-            {
-                return;
+                if (selectedLang.featureIndexList == null)
+                {
+                    return;
+                }
+
+                featureIndexList = selectedLang.featureIndexList;
             }
 
             //(one lang may has many features)
             //Enumerate features we want and add the corresponding lookup tables
-            foreach (ushort featureIndex in selectedLang.featureIndexList)
+            foreach (ushort featureIndex in featureIndexList)
             {
                 FeatureList.FeatureTable feature = gsubTable.FeatureList.featureTables[featureIndex];
                 bool includeThisFeature = false;
@@ -337,7 +344,7 @@ namespace Typography.TextLayout
         {
             if (_mustRebuildTables)
             {
-                RebuildTables();
+                RebuildTables(null);
                 _mustRebuildTables = false;
             }
             //-------------

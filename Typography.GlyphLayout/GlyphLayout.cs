@@ -238,6 +238,7 @@ namespace Typography.TextLayout
         GlyphSubstitution _gsub;
         GlyphSetPosition _gpos;
         bool _needPlanUpdate;
+        private ushort[] _featureIndexList;
 
         readonly GlyphIndexList _inputGlyphs = new GlyphIndexList();//reusable input glyph
         readonly GlyphPosStream _glyphPositions = new GlyphPosStream();
@@ -245,13 +246,14 @@ namespace Typography.TextLayout
         readonly static ScriptLang s_latin = new ScriptLang("latn");
         readonly static ScriptLang s_math = new ScriptLang("math");
 
-        public GlyphLayout()
+        public GlyphLayout(ushort[] featureIndexList = null)
         {
             PositionTechnique = PositionTechnique.OpenFont;
             EnableLigature = true;
             EnableComposition = true;
             EnableGsub = EnableGpos = true;
             ScriptLang = s_latin;
+            _featureIndexList = featureIndexList;
         }
 
 
@@ -434,7 +436,7 @@ namespace Typography.TextLayout
                 //TODO: review perf here
                 _gsub.EnableLigation = this.EnableLigature;
                 _gsub.EnableComposition = this.EnableComposition;
-                _gsub.DoSubstitution(glyphs);
+                _gsub.DoSubstitution(glyphs, _featureIndexList);
             }
 
             //----------------------------------------------  

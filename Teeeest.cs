@@ -26,7 +26,7 @@ namespace Typography
         {
             if (_textPrinter == null && font != null)
             {
-                _textPrinter = new();
+                _textPrinter = new(null);
                 _textPrinter.EnableLigature = true;
                 _textPrinter.PositionTechnique = PositionTechnique.OpenFont;
                 Typeface tf = font.LoadTypeface();

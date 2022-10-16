@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DrawingGL;
 using DrawingGL.Text;
 using Typography;
@@ -19,15 +20,20 @@ public class UText : MaskableGraphic, ILayoutElement
     [SerializeField] private int _fontSize;
     [SerializeField] private TextAnchor _alignment;
 
+#if UNITY_EDITOR
     [NonSerialized] private int _prevFontSize;
     [NonSerialized] private SuperFont _prevFont;
+    [NonSerialized] private ushort[] _prevFeatureIndexList;
+#endif
     private TextPrinter _textPrinter;
 
+    [SerializeField] private ushort[] _featureIndexList;
+    
     public void Init()
     {
         if (_textPrinter == null && _font != null)
         {
-            _textPrinter = new();
+            _textPrinter = new(_featureIndexList);
             _textPrinter.EnableLigature = true;
             _textPrinter.PositionTechnique = PositionTechnique.OpenFont;
             Typeface tf = _font.LoadTypeface();
@@ -140,10 +146,12 @@ public class UText : MaskableGraphic, ILayoutElement
         }
     }
 
+#if UNITY_EDITOR    
     protected override void OnValidate()
     {
-        if (_prevFont != _font || _prevFontSize != _fontSize)
+        if (_prevFont != _font || _prevFontSize != _fontSize || !_featureIndexList.SequenceEqual(_prevFeatureIndexList))
         {
+            _prevFeatureIndexList = _featureIndexList.ToArray();
             _textPrinter = null;
             _prevFontSize = _fontSize;
             _prevFont = _font;
@@ -152,6 +160,7 @@ public class UText : MaskableGraphic, ILayoutElement
         _textRun = null;
         base.OnValidate();
     }
+#endif
 
     public void CalculateLayoutInputHorizontal()
     {

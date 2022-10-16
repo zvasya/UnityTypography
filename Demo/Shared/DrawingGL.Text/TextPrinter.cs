@@ -39,7 +39,7 @@ namespace DrawingGL.Text
         }
         GlyphMeshCollection<ProcessedGlyph> _glyphMeshCollection = new GlyphMeshCollection<ProcessedGlyph>();
         //-------------
-        public TextPrinter()
+        public TextPrinter(ushort[] featureIndexList)
         {
             FontSizeInPoints = 14;
             
@@ -49,6 +49,7 @@ namespace DrawingGL.Text
             _curveFlattener = new SimpleCurveFlattener();
 
             _tessTool = new TessTool();
+            GlyphLayoutMan = new GlyphLayout(featureIndexList);
         }
 
 
@@ -56,7 +57,7 @@ namespace DrawingGL.Text
         {
             throw new System.NotImplementedException();
         }
-        public override GlyphLayout GlyphLayoutMan { get; } = new GlyphLayout();
+        public override GlyphLayout GlyphLayoutMan { get; }
 
         public override Typeface Typeface
         {
