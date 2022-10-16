@@ -51,7 +51,9 @@ public static class FontAssetProcessor
             var _pathTranslator = new GlyphTranslatorToPath();
             var _curveFlattener = new SimpleCurveFlattener();
             var _currentGlyphPathBuilder = new GlyphOutlineBuilder(typeface);
-            // for (ushort i = 0; i < 100; i++)
+            _currentGlyphPathBuilder.UseTrueTypeInstructions = false; //reset
+            _currentGlyphPathBuilder.UseVerticalHinting = false; //reset
+
             for (ushort i = 0; i < typeface.GlyphCount; i++)
             {
                 var glyph = typeface.GetGlyph(i);
