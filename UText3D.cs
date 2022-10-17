@@ -20,6 +20,7 @@ namespace Typography
         [SerializeField] private SuperFont _font;
         [SerializeField] private string _text;
         [SerializeField] private int _fontSize;
+        [SerializeField] private int _thickness;
         [SerializeField] private TextAnchor _alignment;
         [SerializeField] private ushort[] _featureIndexList;
 
@@ -160,11 +161,23 @@ namespace Typography
                         Vector4.zero);
                 }
 
+                if (_thickness != 0)
+                {
+                    for (var k = 0; k < run._tessData.Length / 2; k++)
+                    {
+                        var h = k * 2;
+                        toFill.AddVert(new Vector3(nx + run._tessData[h], ny + run._tessData[h + 1], _thickness), Color.white,
+                            Vector4.zero);
+                    }
+                }
+
                 var dir = (run._tessData[2] - run._tessData[0]) * (run._tessData[3] + run._tessData[1]) +
                           (run._tessData[4] - run._tessData[2]) * (run._tessData[5] + run._tessData[3]) +
                           (run._tessData[0] - run._tessData[4]) * (run._tessData[1] + run._tessData[5]) >
                           0;
 
+                
+                var startIndex = l;
                 if (dir)
                     for (var k = 0; k < run._tessData.Length / 6; k++)
                         toFill.AddTriangle(l++, l++, l++);
@@ -174,6 +187,53 @@ namespace Typography
                         toFill.AddTriangle(l++, l + 1, l++);
                         l++;
                     }
+
+                if (_thickness != 0)
+                {
+                    var secondIndex = l;
+                    if (!dir)
+                    {
+                        for (var k = 0; k < run._tessData.Length / 6; k++)
+                            toFill.AddTriangle(l++, l++, l++);
+                        for (var k = 0; k < run._tessData.Length / 6; k++)
+                        {
+                            var l1 = startIndex + k * 3;
+                            var l2 = secondIndex + k * 3;
+
+                            toFill.AddTriangle(l1 + 0, l1 + 1, l2 + 0);
+                            toFill.AddTriangle(l2 + 0, l1 + 1, l2 + 1);
+
+                            toFill.AddTriangle(l1 + 1, l1 + 2, l2 + 1);
+                            toFill.AddTriangle(l2 + 1, l1 + 2, l2 + 2);
+
+                            toFill.AddTriangle(l1 + 2, l1 + 0, l2 + 2);
+                            toFill.AddTriangle(l2 + 2, l1 + 0, l2 + 0);
+                        }
+                    }
+                    else
+                    {
+                        for (var k = 0; k < run._tessData.Length / 6; k++)
+                        {
+                            toFill.AddTriangle(l++, l + 1, l++);
+                            l++;
+                        }
+                        
+                        for (var k = 0; k < run._tessData.Length / 6; k++)
+                        {
+                            var l1 = startIndex + k * 3;
+                            var l2 = secondIndex + k * 3;
+
+                            toFill.AddTriangle(l1 + 0, l2 + 0, l1 + 1);
+                            toFill.AddTriangle(l2 + 0, l2 + 1, l1 + 1);
+
+                            toFill.AddTriangle(l1 + 1, l2 + 1, l1 + 2);
+                            toFill.AddTriangle(l2 + 1, l2 + 2, l1 + 2);
+
+                            toFill.AddTriangle(l1 + 2, l2 + 2, l1 + 0);
+                            toFill.AddTriangle(l2 + 2, l2 + 0, l1 + 0);
+                        }
+                    }
+                }
             }
 
             var m = new Mesh();

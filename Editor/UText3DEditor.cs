@@ -18,6 +18,7 @@ namespace Typography_Editor
         private SerializedProperty _fontSize;
         private SerializedProperty _alignment;
         private SerializedProperty _featureIndexList;
+        private SerializedProperty _thickness;
         private SerializedProperty _meshRenderer;
         private SerializedProperty _meshFilter;
 
@@ -40,6 +41,7 @@ namespace Typography_Editor
             _fontSize = serializedObject.FindProperty("_fontSize");
             _alignment = serializedObject.FindProperty("_alignment");
             _featureIndexList = serializedObject.FindProperty("_featureIndexList");
+            _thickness = serializedObject.FindProperty("_thickness");
             _meshRenderer = serializedObject.FindProperty("_meshRenderer");
             _meshFilter = serializedObject.FindProperty("_meshFilter");
             ReloadFeaturesList();
@@ -57,6 +59,7 @@ namespace Typography_Editor
             EditorGUILayout.PropertyField(_text);
             EditorGUILayout.PropertyField(_fontSize);
             EditorGUILayout.PropertyField(_alignment);
+            EditorGUILayout.PropertyField(_thickness);
             EditorGUILayout.PropertyField(_meshRenderer);
             EditorGUILayout.PropertyField(_meshFilter);
             
